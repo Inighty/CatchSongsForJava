@@ -7,7 +7,26 @@
 	<name>uwhile-playlist</name>
 	<description>uwhile-playlist</description>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 	<dependencies>
+		<dependency>
+			<groupId>com.openshift</groupId>
+			<artifactId>openshift-java-client</artifactId>
+			<version>2.7.0.Final</version>
+		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>

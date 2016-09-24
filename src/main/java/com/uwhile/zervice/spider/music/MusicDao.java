@@ -20,7 +20,7 @@ public class MusicDao {
 	ConfigReader reader = new ConfigReader();
 	File file = new File(".");
 	private String folderPath = file.getAbsolutePath() + "\\log\\";
-	private String fileThreadPath = folderPath + (String) Thread.currentThread().getName().replace("-", "") + ".txt";
+//	private String fileThreadPath = folderPath + (String) Thread.currentThread().getName().replace("-", "") + ".txt";
 	private String filePath = folderPath + ".txt";
 	private String ErrorPath = folderPath + "Error.txt";
 	// private static final String url =
@@ -89,9 +89,9 @@ public class MusicDao {
 			ps.setInt(4, count);
 			ps.execute();
 			/* System.out.println("插入数据成功:"+songId+","+songName+","+artist); */
-			String temp = dateFormat.format(new Date()) + ":"
-					+ (String) Thread.currentThread().getName().replace("-", "") + "插入数据成功:" + songId + "," + songName
-					+ "," + artist + "," + count + "\n";
+//			String temp = dateFormat.format(new Date()) + ":"
+//					+ (String) Thread.currentThread().getName().replace("-", "") + "插入数据成功:" + songId + "," + songName
+//					+ "," + artist + "," + count + "\n";
 //			fileAllOutputStream(temp);
 		} catch (Exception e) {
 			String temp = dateFormat.format(new Date()) + ":"
@@ -134,7 +134,7 @@ public class MusicDao {
 			ps.setString(2, songName);
 			ps.setString(3, artist);
 			ps.execute();
-			String temp = "更新歌曲信息成功:" + songId + "," + songName + "," + artist + "\n";
+//			String temp = "更新歌曲信息成功:" + songId + "," + songName + "," + artist + "\n";
 //			fileAllOutputStream(temp);
 		} catch (Exception e) {
 			String temp = "更新歌曲信息失败:" + songId + "," + songName + "," + artist + "\n";
@@ -183,7 +183,7 @@ public class MusicDao {
 			ps.setInt(1, commentCount);
 			ps.setLong(2, existSongId);
 			ps.execute();
-			String temp = "更新评论数成功:" + existSongId + "," + commentCount + "\n";
+//			String temp = "更新评论数成功:" + existSongId + "," + commentCount + "\n";
 //			fileAllOutputStream(temp);
 		} catch (Exception e) {
 			String temp = "更新评论数失败:" + existSongId + "," + commentCount + "\n";
