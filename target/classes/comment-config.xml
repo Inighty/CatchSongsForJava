@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
-<VALUE>
-<START_SONG_ID>25000000</START_SONG_ID>
-<STOP_SONG_ID>800000000</STOP_SONG_ID>
-<THREAD_NUM>100</THREAD_NUM>
-</VALUE>
