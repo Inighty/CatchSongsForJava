@@ -13,18 +13,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.uwhile.zervice.spider.common.ConfigReader;
+
 public class MusicDao {
 
-	private static String folderPath = "E:\\my163\\";
-	private static String fileThreadPath = folderPath + (String) Thread.currentThread().getName().replace("-", "")
-			+ ".txt";
-	private static String filePath = folderPath + ".txt";
-	private static String ErrorPath = "E:\\my163\\Error.txt";
+	ConfigReader reader = new ConfigReader();
+	File file = new File(".");
+	private String folderPath = file.getAbsolutePath() + "\\log\\";
+	private String fileThreadPath = folderPath + (String) Thread.currentThread().getName().replace("-", "") + ".txt";
+	private String filePath = folderPath + ".txt";
+	private String ErrorPath = folderPath + "Error.txt";
 	// private static final String url =
 	// "jdbc:mysql://192.168.1.70:3306/test?characterEncoding=utf-8";
-	private static final String url = "jdbc:mysql://localhost:3306/test?characterEncoding=utf-8";
-	private static final String user = "root";
-	private static final String password = "mc0321..";
+	private String url = reader.Read("ConnectionString");
+	private String user = reader.Read("USER");
+	private String password = reader.Read("PWD");
 	// private static final String user = "writeuser";
 	// private static final String password = "writeuser";
 
@@ -89,15 +92,14 @@ public class MusicDao {
 			String temp = dateFormat.format(new Date()) + ":"
 					+ (String) Thread.currentThread().getName().replace("-", "") + "插入数据成功:" + songId + "," + songName
 					+ "," + artist + "," + count + "\n";
-			fileOutputStream(temp);
+//			fileAllOutputStream(temp);
 		} catch (Exception e) {
 			String temp = dateFormat.format(new Date()) + ":"
 					+ (String) Thread.currentThread().getName().replace("-", "") + "插入数据失败:" + songId + "," + songName
 					+ "," + artist + "," + count + "\n";
 			try {
-				fileOutputStream(temp);
+				fileAllOutputStream(temp);
 			} catch (IOException e1) {
-
 				e1.printStackTrace();
 			}
 		} finally {
@@ -133,11 +135,11 @@ public class MusicDao {
 			ps.setString(3, artist);
 			ps.execute();
 			String temp = "更新歌曲信息成功:" + songId + "," + songName + "," + artist + "\n";
-			fileOutputStream(temp);
+//			fileAllOutputStream(temp);
 		} catch (Exception e) {
 			String temp = "更新歌曲信息失败:" + songId + "," + songName + "," + artist + "\n";
 			try {
-				fileOutputStream(temp);
+				fileAllOutputStream(temp);
 			} catch (IOException e1) {
 
 				e1.printStackTrace();
@@ -163,7 +165,7 @@ public class MusicDao {
 	}
 
 	// 没有路径就创建一个啊
-	public static void CreateFolder() {
+	public void CreateFolder() {
 		File folder = new File(folderPath);
 		if (!folder.exists()) {
 			folder.mkdirs();
@@ -182,11 +184,11 @@ public class MusicDao {
 			ps.setLong(2, existSongId);
 			ps.execute();
 			String temp = "更新评论数成功:" + existSongId + "," + commentCount + "\n";
-			fileOutputStream(temp);
+//			fileAllOutputStream(temp);
 		} catch (Exception e) {
 			String temp = "更新评论数失败:" + existSongId + "," + commentCount + "\n";
 			try {
-				fileOutputStream(temp);
+				fileAllOutputStream(temp);
 			} catch (IOException e1) {
 
 				e1.printStackTrace();
@@ -211,7 +213,7 @@ public class MusicDao {
 		}
 	}
 
-	public static int totalNum() {
+	public int totalNum() {
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -246,141 +248,32 @@ public class MusicDao {
 		}
 		return res;
 	}
-	
+
 	// public static void fileOutputStream(String thread,String temp,boolean
 	// flag) throws IOException {
-	public static void fileOutputStream(String temp) throws IOException {
-		/* String temp="Hello world!\n"; */
+//	public void fileOutputStream(String temp) throws IOException {
+//		CreateFolder();
+//		fileThreadPath = folderPath + "log.txt";
+//		FileOutputStream fos = new FileOutputStream(fileThreadPath, true);
+//		fos.write(temp.getBytes());
+//		fos.close();
+//	}
+
+	public void fileAllOutputStream(String temp) throws IOException {
 		CreateFolder();
-
-		// if(!flag){
-		fileThreadPath = folderPath + Thread.currentThread().getName().replace("-", "") + ".txt";
-
-		// if(!thread.equals(Thread.currentThread().getName())){
-		// System.out.println("Catch!");
-		// }
-		FileOutputStream fos = new FileOutputStream(fileThreadPath, true);
-		//
-		// if(file.exists()){
-		// if(file.length() > 10*1024*1024){
-		// ++count;
-		// file.createNewFile();
-		// fos(fileThreadPath,true);//true表示在文件末尾追加
-		// }}
-		// else{
-		// fos.close();
-		// return;
-		// }
-		fos.write(temp.getBytes());
-		fos.close();
-		// }
-		// else if (flag){
-		// filePath = folderPath +".txt";
-
-		// FileOutputStream fos = new
-		// FileOutputStream(filePath,true);//true表示在文件末尾追加
-		// if(file.exists()){
-		// if(file.length() > 2*1024*1024){
-		// ++count;
-		// file.createNewFile();
-		// }
-		// }
-		// else{
-		// fos.close();
-		// return;
-		// }
-		// fos.write(temp.getBytes());
-		// fos.close();
-		// }
-	}
-
-	public static void fileAllOutputStream(String temp) throws IOException {
-		/* String temp="Hello world!\n"; */
-
-		CreateFolder();
-		// if(!flag){
 		filePath = folderPath + ".txt";
-
-		// if(!thread.equals(Thread.currentThread().getName())){
-		// System.out.println("Catch!");
-		// }
 		FileOutputStream fos = new FileOutputStream(filePath, true);
-		//
-		// if(file.exists()){
-		// if(file.length() > 10*1024*1024){
-		// ++count;
-		// file.createNewFile();
-		// fos(fileThreadPath,true);//true表示在文件末尾追加
-		// }}
-		// else{
-		// fos.close();
-		// return;
-		// }
 		fos.write(temp.getBytes());
 		fos.close();
-		// }
-		// else if (flag){
-		// filePath = folderPath +".txt";
 
-		// FileOutputStream fos = new
-		// FileOutputStream(filePath,true);//true表示在文件末尾追加
-		// if(file.exists()){
-		// if(file.length() > 2*1024*1024){
-		// ++count;
-		// file.createNewFile();
-		// }
-		// }
-		// else{
-		// fos.close();
-		// return;
-		// }
-		// fos.write(temp.getBytes());
-		// fos.close();
-		// }
 	}
 
-	public static void fileErrorOutputStream(String temp) throws IOException {
-		/* String temp="Hello world!\n"; */
+	public void fileErrorOutputStream(String temp) throws IOException {
 		CreateFolder();
-		// if(!flag){
-
-		// if(!thread.equals(Thread.currentThread().getName())){
-		// System.out.println("Catch!");
-		// }
 		FileOutputStream fos = new FileOutputStream(ErrorPath, true);
-		//
-		// if(file.exists()){
-		// if(file.length() > 10*1024*1024){
-		// ++count;
-		// file.createNewFile();
-		// fos(fileThreadPath,true);//true表示在文件末尾追加
-		// }}
-		// else{
-		// fos.close();
-		// return;
-		// }
-
 		fos.write(temp.getBytes());
 		fos.close();
-		// }
-		// else if (flag){
-		// filePath = folderPath +".txt";
 
-		// FileOutputStream fos = new
-		// FileOutputStream(filePath,true);//true表示在文件末尾追加
-		// if(file.exists()){
-		// if(file.length() > 2*1024*1024){
-		// ++count;
-		// file.createNewFile();
-		// }
-		// }
-		// else{
-		// fos.close();
-		// return;
-		// }
-		// fos.write(temp.getBytes());
-		// fos.close();
-		// }
 	}
 
 }

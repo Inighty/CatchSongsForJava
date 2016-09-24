@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
+
 import org.apache.commons.io.IOUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -14,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import com.uwhile.zervice.spider.common.ConfigReader;
 
 public class MusicRunnable implements Runnable {
 
@@ -29,7 +31,8 @@ public class MusicRunnable implements Runnable {
 	// private int visited = 0;
 	// private int tryTimes = 100; //失败后重试次数
 	private int total_thread_num;
-	private int get_info_once = 100;
+	private int get_info_once = Integer.parseInt(new ConfigReader().Read("get_info_once"));;
+	private int min_Comment = Integer.parseInt(new ConfigReader().Read("MINCOMMENT"));
 	private DateFormat dateFormat = DateFormat.getDateTimeInstance();
 
 	public MusicRunnable(int startSongId, int stopSongId, MusicDataHandler musicDataHandler, int total_thread_num) {
@@ -70,10 +73,10 @@ public class MusicRunnable implements Runnable {
 				for (int index = 0; index < get_info_once; index++) {
 					onceGet.append(songId + index * total_thread_num).append(",");
 				}
-				MusicDao.fileAllOutputStream(
-						(String) Thread.currentThread().getName().replace("-", "") + " 取这些songId:" + onceGet + "\n");
-				MusicDao.fileOutputStream(
-						(String) Thread.currentThread().getName().replace("-", "") + " 取这些songId:" + onceGet + "\n");
+//				new MusicDao().fileAllOutputStream(
+//						(String) Thread.currentThread().getName().replace("-", "") + " 取这些songId:" + onceGet + "\n");
+//				new MusicDao().fileOutputStream(
+//						(String) Thread.currentThread().getName().replace("-", "") + " 取这些songId:" + onceGet + "\n");
 				songId += get_info_once * total_thread_num;
 				onceGet.deleteCharAt(onceGet.length() - 1);
 				String toGet = info_url.replaceAll("#songIds#", onceGet.toString());
@@ -140,7 +143,7 @@ public class MusicRunnable implements Runnable {
 					// songInfo.get("id")).longValue();
 					Long existSongId = songInfo.get("id").longValue();
 
-					MusicDao.fileErrorOutputStream(existSongId.toString() + " 有数据！\n");
+//					new MusicDao().fileErrorOutputStream(existSongId.toString() + " 有数据！\n");
 					// MusicDao.fileErrorOutputStream(onceGet.toString().replace(existSongId.toString()+",",
 					// "") + " 无数据！");
 					String name = songInfo.get("name").toString().replaceAll("\"", "");
@@ -165,7 +168,7 @@ public class MusicRunnable implements Runnable {
 
 					} catch (Exception e) {
 
-						MusicDao.fileErrorOutputStream(existSongId + "," + e.toString() + "\n");
+						new MusicDao().fileErrorOutputStream(existSongId + "," + e.toString() + "\n");
 						// 休息2s重试一次看看
 						Thread.sleep(2000);
 						commentResponse = commentResource
@@ -185,12 +188,12 @@ public class MusicRunnable implements Runnable {
 							// (String)Thread.currentThread().getName().replace("-",
 							// "") + " 有空值不插入:"+ songId +
 							// ","+name+","+artist+","+commentCountDbl+","+hMusic+","+bMusic+"\n");
-							MusicDao.fileOutputStream(dateFormat.format(new Date()) + ":"
+							new MusicDao().fileOutputStream(dateFormat.format(new Date()) + ":"
 									+ (String) Thread.currentThread().getName().replace("-", "") + " 有空值不插入:" + songId
 									+ "," + name + "," + artist + "," + commentCountDbl + "\n");
 						}
 						Integer commentCount = commentCountDbl.intValue();
-						if (commentCount >= 1000) {
+						if (commentCount >= min_Comment) {
 							musicDataHandler.putCount(existSongId, commentCount, name, artist);
 
 						} else {
@@ -199,9 +202,9 @@ public class MusicRunnable implements Runnable {
 							// (String)Thread.currentThread().getName().replace("-",
 							// "") + "
 							// 评论数小于1K，不插入:"+existSongId+","+name+","+artist+","+commentCount+"\n");
-							MusicDao.fileOutputStream(dateFormat.format(new Date()) + ":"
-									+ (String) Thread.currentThread().getName().replace("-", "") + " 评论数小于1K，不插入:"
-									+ existSongId + "," + name + "," + artist + "," + commentCount + "\n");
+//							MusicDao.fileOutputStream(dateFormat.format(new Date()) + ":"
+//									+ (String) Thread.currentThread().getName().replace("-", "") + " 评论数小于1K，不插入:"
+//									+ existSongId + "," + name + "," + artist + "," + commentCount + "\n");
 
 						}
 					}
@@ -225,12 +228,12 @@ public class MusicRunnable implements Runnable {
 						// (String)Thread.currentThread().getName().replace("-",
 						// "") + " 有空值不插入:"+ songId +
 						// ","+name+","+artist+","+commentCountDbl+","+hMusic+","+bMusic+"\n");
-						MusicDao.fileOutputStream(dateFormat.format(new Date()) + ":"
+						new MusicDao().fileOutputStream(dateFormat.format(new Date()) + ":"
 								+ (String) Thread.currentThread().getName().replace("-", "") + " 有空值不插入:" + songId + ","
 								+ name + "," + artist + "," + commentCountDbl + "\n");
 					}
 					Integer commentCount = ((Integer) commentCountDbl).intValue();
-					if (commentCount >= 1000) {
+					if (commentCount >= min_Comment) {
 						musicDataHandler.putCount(existSongId, commentCount, name, artist);
 
 					} else {
@@ -260,7 +263,7 @@ public class MusicRunnable implements Runnable {
 						+ (String) Thread.currentThread().getName().replace("-", "") + "," + songId + " throw err:\n");
 				e1.printStackTrace();
 				try {
-					MusicDao.fileErrorOutputStream(e1.toString() + "\n");
+					new MusicDao().fileErrorOutputStream(e1.toString() + "\n");
 				} catch (IOException e) {
 
 					e.printStackTrace();
