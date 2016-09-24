@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<VALUE>
+<ConnectionString>jdbc:mysql://localhost:3306/test?characterEncoding=utf-8</ConnectionString>
+<USER>root</USER>
+<PWD>mc0321..</PWD>
+<START_SONG_ID>60000</START_SONG_ID>
+<STOP_SONG_ID>800000000</STOP_SONG_ID>
+<THREAD_NUM>100</THREAD_NUM>
+<MINCOMMENT>1</MINCOMMENT>
+<get_info_once>100</get_info_once>
+</VALUE>
