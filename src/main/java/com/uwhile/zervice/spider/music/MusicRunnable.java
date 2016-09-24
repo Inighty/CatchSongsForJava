@@ -239,9 +239,13 @@ public class MusicRunnable implements Runnable {
 						// (String)Thread.currentThread().getName().replace("-",
 						// "") + "
 						// 评论数小于1K，不插入:"+existSongId+","+name+","+artist+","+commentCount+"\n");
-//						MusicDao.fileOutputStream(dateFormat.format(new Date()) + ":"
-//								+ (String) Thread.currentThread().getName().replace("-", "") + " 评论数小于1K，不插入:"
-//								+ existSongId + "," + name + "," + artist + "," + commentCount + "\n");
+						// MusicDao.fileOutputStream(dateFormat.format(new
+						// Date()) + ":"
+						// + (String)
+						// Thread.currentThread().getName().replace("-", "") + "
+						// 评论数小于1K，不插入:"
+						// + existSongId + "," + name + "," + artist + "," +
+						// commentCount + "\n");
 
 					}
 
