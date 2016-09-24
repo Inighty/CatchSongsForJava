@@ -188,7 +188,7 @@ public class MusicRunnable implements Runnable {
 							// (String)Thread.currentThread().getName().replace("-",
 							// "") + " 有空值不插入:"+ songId +
 							// ","+name+","+artist+","+commentCountDbl+","+hMusic+","+bMusic+"\n");
-							new MusicDao().fileOutputStream(dateFormat.format(new Date()) + ":"
+							new MusicDao().fileAllOutputStream(dateFormat.format(new Date()) + ":"
 									+ (String) Thread.currentThread().getName().replace("-", "") + " 有空值不插入:" + songId
 									+ "," + name + "," + artist + "," + commentCountDbl + "\n");
 						}
@@ -228,7 +228,7 @@ public class MusicRunnable implements Runnable {
 						// (String)Thread.currentThread().getName().replace("-",
 						// "") + " 有空值不插入:"+ songId +
 						// ","+name+","+artist+","+commentCountDbl+","+hMusic+","+bMusic+"\n");
-						new MusicDao().fileOutputStream(dateFormat.format(new Date()) + ":"
+						new MusicDao().fileAllOutputStream(dateFormat.format(new Date()) + ":"
 								+ (String) Thread.currentThread().getName().replace("-", "") + " 有空值不插入:" + songId + ","
 								+ name + "," + artist + "," + commentCountDbl + "\n");
 					}
