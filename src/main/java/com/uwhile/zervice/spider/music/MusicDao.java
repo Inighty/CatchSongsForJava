@@ -17,17 +17,19 @@ import com.uwhile.zervice.spider.common.ConfigReader;
 
 public class MusicDao {
 
-	ConfigReader reader = new ConfigReader();
-	File file = new File(".");
-	private String folderPath = file.getAbsolutePath() + "\\log\\";
+//	ConfigReader reader = new ConfigReader();
+	File file = new File("log");
+	private String folderPath = file.getAbsolutePath();
 //	private String fileThreadPath = folderPath + (String) Thread.currentThread().getName().replace("-", "") + ".txt";
-	private String filePath = folderPath + ".txt";
-	private String ErrorPath = folderPath + "Error.txt";
+	private String filePath = folderPath + "\\log.txt";
+	private String ErrorPath = folderPath + "\\Error.txt";
 	// private static final String url =
-	// "jdbc:mysql://192.168.1.70:3306/test?characterEncoding=utf-8";
-	private String url = reader.Read("ConnectionString");
-	private String user = reader.Read("USER");
-	private String password = reader.Read("PWD");
+	private String url = "jdbc:mysql://localhost:3306/test?characterEncoding=utf-8";
+//	private String url = reader.Read("ConnectionString");
+	private String user = "root";
+//	private String user = reader.Read("USER");
+	private String password = "mc0321..";
+//	private String password = reader.Read("PWD");
 	// private static final String user = "writeuser";
 	// private static final String password = "writeuser";
 
@@ -98,7 +100,7 @@ public class MusicDao {
 					+ (String) Thread.currentThread().getName().replace("-", "") + "插入数据失败:" + songId + "," + songName
 					+ "," + artist + "," + count + "\n";
 			try {
-				fileAllOutputStream(temp);
+				fileAllOutputStream(temp+"错误信息："+e.toString());
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -190,7 +192,6 @@ public class MusicDao {
 			try {
 				fileAllOutputStream(temp);
 			} catch (IOException e1) {
-
 				e1.printStackTrace();
 			}
 		} finally {
@@ -263,7 +264,7 @@ public class MusicDao {
 		CreateFolder();
 		filePath = folderPath + ".txt";
 		FileOutputStream fos = new FileOutputStream(filePath, true);
-		fos.write(temp.getBytes());
+		fos.write(temp.getBytes("utf-8"));
 		fos.close();
 
 	}
@@ -271,7 +272,7 @@ public class MusicDao {
 	public void fileErrorOutputStream(String temp) throws IOException {
 		CreateFolder();
 		FileOutputStream fos = new FileOutputStream(ErrorPath, true);
-		fos.write(temp.getBytes());
+		fos.write(temp.getBytes("utf-8"));
 		fos.close();
 
 	}

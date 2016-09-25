@@ -11,6 +11,7 @@ public class ConfigReader {
 		String value = "";
 		try {
 			ClassLoader classLoader = getClass().getClassLoader();  
+			System.out.println(classLoader.getResource("comment-config.xml"));
 		    File f = new File(classLoader.getResource("comment-config.xml").getFile());  
 			SAXReader reader = new SAXReader();
 			Document doc = reader.read(f);
